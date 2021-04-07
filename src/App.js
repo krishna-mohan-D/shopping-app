@@ -34,7 +34,7 @@ function App() {
     const listProducts= ()=>{
 
           if (sort !== ''){
-                products.sort((a,b)=>(sort==='lowest')? (a.price<b.price?1:-1) : (a.price<b.price?-1:1))
+                products.sort((a,b)=>(sort==='highest')? (a.price>b.price?1:-1) : (a.price<b.price?1:-1))
           }
           else{
                 products.sort((a,b)=>(a.id<b.id?1:-1)); 
@@ -57,7 +57,7 @@ function App() {
             <Filter  size={size}  sort={sort} handleChangeSort={handleChangeSort}  count={filteredProducts.length}
                    	 	handleChangeSize={handleChangeSize}	/>
             <hr/>
-            <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
+            <Products  products={filteredProducts}  />
         </div>
         <div className="col-md-4">
 
