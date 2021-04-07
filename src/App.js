@@ -57,7 +57,7 @@ function App() {
             <Filter  size={size}  sort={sort} handleChangeSort={handleChangeSort}  count={filteredProducts.length}
                    	 	handleChangeSize={handleChangeSize}	/>
             <hr/>
-            <Products  products={filteredProducts}  />
+            <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
         </div>
         <div className="col-md-4">
 
