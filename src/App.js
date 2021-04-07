@@ -3,11 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import Products from './components/Products'
 import  Filter  from  './components/Filter';
+import Backet from './components/Backet';
 function App() {
     const [products , setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sort, setSort] = useState('');
     const [size, setSize] = useState('');
+    const [cartItems, setcartItems] = useState([]);
     useEffect( () => {
           const res =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setFilteredProducts(data));
           const res2 =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setProducts(data));
@@ -44,7 +46,7 @@ function App() {
         {
             return setFilteredProducts(products.filter(a => a.availableSizes.indexOf(size)>=0))
         }
-        console.log('ss',products)
+        // console.log('ss',products)
 
           return setFilteredProducts(products);
     }   
@@ -57,10 +59,10 @@ function App() {
             <Filter  size={size}  sort={sort} handleChangeSort={handleChangeSort}  count={filteredProducts.length}
                    	 	handleChangeSize={handleChangeSize}	/>
             <hr/>
-            <Products  products={filteredProducts}  />
+            <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
         </div>
         <div className="col-md-4">
-
+              <Backet cartItems={cartItems} handleRemoveCart={handleRemoveCart} />   
         </div>
       </div>
     </div>
