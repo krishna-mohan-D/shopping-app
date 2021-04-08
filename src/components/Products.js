@@ -6,7 +6,7 @@ export default function Products(props) {
           <div className="thumbnail text-center">
             <a
               href={`#${product.id}`}
-              onClick={(e) => props.addToCart(props.cartItems, product)}
+              onClick={(e) => props.handleAddToCart(e, product)}
             >
               <img src={`products/${product.sku}_2.jpg`} alt={product.title} />
               <p>{product.title}</p>

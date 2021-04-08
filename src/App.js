@@ -4,12 +4,14 @@ import './App.css';
 import Products from './components/Products'
 import  Filter  from  './components/Filter';
 import Backet from './components/Backet';
+
 function App() {
     const [products , setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sort, setSort] = useState('');
     const [size, setSize] = useState('');
-    const [cartItems, setcartItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
+    
     useEffect( () => {
           const res =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setFilteredProducts(data));
           const res2 =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setProducts(data));
@@ -17,14 +19,14 @@ function App() {
           // const json =  res.json();
           // setProducts(json);
           // setFilteredProducts(json);
-          console.log("fdf",filteredProducts)
+          // console.log("fdf",filteredProducts)
 
 
     },[])
 
     const handleChangeSort =(e) => {
                 setSort(e.target.value);
-                listProducts()
+                listProducts();
                 // console.log("sort", sort)
     }
   
@@ -51,7 +53,31 @@ function App() {
           return setFilteredProducts(products);
     }   
 
-    
+    const handleAddToCart = (e,product) => {
+        
+      let productAlreadyInCart =false;
+      cartItems.forEach(item => {
+        // console.log('id',item);
+        if (item.product.id === product.id){
+          productAlreadyInCart = true;
+          item.count++;
+          // console.log('checking',item)
+
+        }
+      });
+      
+      if (!productAlreadyInCart){  
+        setCartItems([...cartItems,{product, count: 1}]);
+        //  setCartItems([{...product, count: 1}]);
+
+      }
+      localStorage.setItem("cart items",JSON.stringify(cartItems));
+      return cartItems;
+    }
+
+
+  // console.log('ch', !productAlreadyInCart);
+
   return (
     <div className="App">
       <div className="row">
@@ -62,7 +88,7 @@ function App() {
             <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
         </div>
         <div className="col-md-4">
-              <Backet cartItems={cartItems} handleRemoveCart={handleRemoveCart} />   
+              <Backet cartItems={cartItems}  />   
         </div>
       </div>
     </div>
