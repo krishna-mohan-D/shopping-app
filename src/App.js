@@ -20,7 +20,9 @@ function App() {
           // setProducts(json);
           // setFilteredProducts(json);
           // console.log("fdf",filteredProducts)
-
+            if(localStorage.getItem('cartItems')){
+              setCartItems(JSON.parse(localStorage.getItem('cartItems')))
+            }
 
     },[])
 
@@ -71,12 +73,20 @@ function App() {
         //  setCartItems([{...product, count: 1}]);
 
       }
-      localStorage.setItem("cart items",JSON.stringify(cartItems));
+      localStorage.setItem("cartItems",JSON.stringify(cartItems));
       return cartItems;
     }
 
 
   // console.log('ch', !productAlreadyInCart);
+   const  handleRemoveFromCart = (e,item) => {
+    //  console.log("handleRemoveFromCart",item.product.id);
+    //  console.log('handleRemoveFr',cartItems);
+        var cartItems=[];
+         cartItems = cartItems.filter(fil => fil.id !== item.product.id)
+        localStorage.setItem('cartItems',cartItems)
+        return cartItems
+  }
 
   return (
     <div className="App">
@@ -88,7 +98,7 @@ function App() {
             <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
         </div>
         <div className="col-md-4">
-              <Backet cartItems={cartItems}  />   
+              <Backet cartItems={cartItems}  handleRemoveFromCart={handleRemoveFromCart}/>   
         </div>
       </div>
     </div>
