@@ -4,6 +4,8 @@ import './App.css';
 import Products from './components/Products'
 import  Filter  from  './components/Filter';
 import Backet from './components/Backet';
+import store from './store';
+import {Provider} from 'react-redux';
 
 function App() {
     const [products , setProducts] = useState([]);
@@ -13,8 +15,8 @@ function App() {
     const [cartItems, setCartItems] = useState([]);
     
     useEffect( () => {
-          const res =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setFilteredProducts(data));
-          const res2 =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setProducts(data));
+          // const res =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setFilteredProducts(data));
+          // const res2 =  fetch("http://localhost:8000/products").then(res=>res.json()).then(data=>setProducts(data));
 
           // const json =  res.json();
           // setProducts(json);
@@ -82,26 +84,28 @@ function App() {
    const  handleRemoveFromCart = (e,item) => {
     //  console.log("handleRemoveFromCart",item.product.id);
     //  console.log('handleRemoveFr',cartItems);
-        var cartItems=[];
-         cartItems = cartItems.filter(fil => fil.id !== item.product.id)
+    
+        const  cartItems = cartItems.filter(fil => fil.id !== item.product.id)
         localStorage.setItem('cartItems',cartItems)
         return cartItems
   }
 
   return (
-    <div className="App">
-      <div className="row">
-        <div className="col-md-8">
-            <Filter  size={size}  sort={sort} handleChangeSort={handleChangeSort}  count={filteredProducts.length}
-                   	 	handleChangeSize={handleChangeSize}	/>
-            <hr/>
-            <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
+      <Provider store={store}>
+        <div className="App">
+          <div className="row">
+            <div className="col-md-8">
+                <Filter  size={size}  sort={sort} handleChangeSort={handleChangeSort}  count={filteredProducts.length}
+                          handleChangeSize={handleChangeSize}	/>
+                <hr/>
+                <Products  products={filteredProducts}  handleAddToCart={handleAddToCart} />
+            </div>
+            <div className="col-md-4">
+                  <Backet cartItems={cartItems}  handleRemoveFromCart={handleRemoveFromCart}/>   
+            </div>
+          </div>
         </div>
-        <div className="col-md-4">
-              <Backet cartItems={cartItems}  handleRemoveFromCart={handleRemoveFromCart}/>   
-        </div>
-      </div>
-    </div>
+      </Provider>  
   );
 }
 

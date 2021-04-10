@@ -1,4 +1,5 @@
 import React from 'react'
+import util from '../util'
 
 export default function Backet(props) {
     return (
@@ -12,7 +13,8 @@ export default function Backet(props) {
 
                                     {/* {console.log('backet',item.product.title)} */}
                                 <b>{item.product.title}</b>
-                                    x{item.count}
+                                   {/* {console.log('pro',item)} */}
+                                    x{item.count} = {item.product.price * item.count}
                                 <button className="btn btn-danger" onClick={(e)=>props.handleRemoveFromCart(e,item)}>X</button>
                             </li>
 
@@ -20,6 +22,9 @@ export default function Backet(props) {
 
                         }
                     </ul>
+                    Total :  { util.formatCurrency(props.cartItems.reduce((a,c) => a + c.product.price*c.count,0))}
+                    {/* Total :  {  props.cartItems.reduce((a,c) => console.log('a',c.product.price),0)} */}
+
                 </div>      
             } 
         </div>

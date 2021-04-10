@@ -1,6 +1,11 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import util from  '../util'
-export default function Products(props) {
+import {connect} from 'react-redux';
+import {fetchProducts} from '../actions/productActions'
+function Products(props) {
+    useEffect(()=> {
+        props.fetchProducts()  
+    },[])
     const productItems = props.products.map((product) => (
         <div className="col-md-4" key={product.id}>
           <div className="thumbnail text-center">
@@ -28,3 +33,7 @@ export default function Products(props) {
         </div>
     )
 }
+
+const mapStateToProps = state => ({products: state.products.items});
+
+export default connect(mapStateToProps , {fetchProducts})(Products);
